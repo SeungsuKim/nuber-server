@@ -1,6 +1,8 @@
-import { Options } from 'graphql-yoga';
+import { Options } from "graphql-yoga";
+import { createConnection } from "typeorm";
 
-import app from './app';
+import app from "./app";
+import connectionOptions from "./ormConfig";
 
 const PORT: number | string = process.env.PORT || 4000;
 const PLAYGROUND_ENDPOINT: string = "/playground";
@@ -14,4 +16,6 @@ const appOptions: Options = {
 
 const appCallback = (): void => console.log(`✅  Listening on port ${PORT}`);
 
-app.start(appOptions, appCallback);
+createConnection(connectionOptions).then(() => {
+  app.start(appOptions, appCallback);
+});
