@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { Options } from "graphql-yoga";
 import { createConnection } from "typeorm";
 
@@ -16,6 +19,8 @@ const appOptions: Options = {
 
 const appCallback = (): void => console.log(`✅  Listening on port ${PORT}`);
 
-createConnection(connectionOptions).then(() => {
-  app.start(appOptions, appCallback);
-});
+createConnection(connectionOptions)
+  .then(() => {
+    app.start(appOptions, appCallback);
+  })
+  .catch(error => console.log(error));
