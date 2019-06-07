@@ -11,6 +11,9 @@
     "@types/helmet": "^0.0.43",
     "@types/morgan": "^1.7.35",
     "@types/node": "^12.0.7",
+    "babel-runtime": "^6.26.0",
+    "gql-merge": "^0.0.6",
+    "graphql-to-typescript": "^0.1.2",
     "nodemon": "^1.19.1",
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
@@ -18,7 +21,9 @@
     "typescript": "^3.5.1"
   },
   "scripts": {
-    "dev": "cd src && nodemon --exec ts-node index.ts -e ts,graphql"
+    "dev": "cd src && nodemon --exec ts-node index.ts -e ts,graphql",
+    "pretypes": "gql-merge --out-file ./src/schema.graphql ./src/api/**.*.graphql",
+    "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graphql.d.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
