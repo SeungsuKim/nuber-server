@@ -7,13 +7,23 @@
   "author": "seungsukim <seungsu0407@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/cors": "^2.8.5",
+    "@types/helmet": "^0.0.43",
+    "@types/morgan": "^1.7.35",
     "@types/node": "^12.0.7",
     "nodemon": "^1.19.1",
     "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.1"
   },
   "scripts": {
     "dev": "cd src && nodemon --exec ts-node index.ts -e ts,graphql"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "graphql-yoga": "^1.17.4",
+    "helmet": "^3.18.0",
+    "morgan": "^1.9.1"
   }
 }
