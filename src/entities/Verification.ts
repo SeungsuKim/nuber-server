@@ -7,13 +7,15 @@ import {
   UpdateDateColumn
 } from "typeorm";
 
+import { verificationTarget } from "../types/types";
+
 @Entity()
 class Verification extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "text" })
-  target: string;
+  @Column({ type: "text", enum: ["PHONE", "EMAIL"] })
+  target: verificationTarget;
 
   @Column({ type: "text" })
   payload: string;
