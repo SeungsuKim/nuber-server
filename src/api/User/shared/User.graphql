@@ -8,6 +8,7 @@ type User {
   lastName: String!
   age: Int
   password: String
+  facebookId: String
   profilePhoto: String
   fullName: String
   isDriving: Boolean!
