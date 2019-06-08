@@ -7,8 +7,9 @@ const resolvers: Resolvers = {
   Mutation: {
     facebookConnect: async (
       _,
-      { firstName, lastName, facebookId }: FacebookConnectMutationArgs
+      args: FacebookConnectMutationArgs
     ): Promise<FacebookConnectResponse> => {
+      const { facebookId } = args;
       try {
         const existingUser = await User.findOne({ facebookId });
         if (existingUser) {
@@ -26,6 +27,15 @@ const resolvers: Resolvers = {
         };
       }
       try {
+        await User.create({
+          ...args,
+          profilePhoto: `http://grpah.facebook.com/${facebookId}/picture?type=squre`
+        }).save();
+        return {
+          ok: true,
+          error: null,
+          token: "Comming soon"
+        };
       } catch (error) {
         return {
           ok: false,
