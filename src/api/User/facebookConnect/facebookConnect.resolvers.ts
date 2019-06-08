@@ -1,6 +1,6 @@
-import User from "src/entities/User";
 import { FacebookConnectMutationArgs, FacebookConnectResponse } from "src/types/graphql";
 
+import User from "../../../entities/User";
 import { Resolvers } from "../../../types/resolvers";
 
 const resolvers: Resolvers = {
@@ -16,7 +16,7 @@ const resolvers: Resolvers = {
           return {
             ok: true,
             error: null,
-            token: "Coming soon"
+            token: "Coming soon, already"
           };
         }
       } catch (error) {
@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
         return {
           ok: true,
           error: null,
-          token: "Comming soon"
+          token: "Comming soon, created"
         };
       } catch (error) {
         return {
