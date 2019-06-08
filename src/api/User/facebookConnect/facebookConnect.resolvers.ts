@@ -5,7 +5,7 @@ import { Resolvers } from "../../../types/resolvers";
 
 const resolvers: Resolvers = {
   Mutation: {
-    facebookConnect: async (
+    FacebookConnect: async (
       _,
       args: FacebookConnectMutationArgs
     ): Promise<FacebookConnectResponse> => {

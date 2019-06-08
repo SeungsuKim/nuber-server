@@ -5,7 +5,7 @@ type FacebookConnectResponse {
 }
 
 type Mutation {
-  facebookConnect(
+  FacebookConnect(
     firstName: String!
     lastName: String!
     email: String
