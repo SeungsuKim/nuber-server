@@ -51,7 +51,7 @@ type EmailSiginInResponse {
 }
 
 type Mutation {
-  EmailSignIn(email: String!): EmailSiginInResponse
+  EmailSignIn(email: String!, password: String!): EmailSiginInResponse
   FacebookConnect(firstName: String!, lastName: String!, email: String, facebookId: String!): FacebookConnectResponse!
 }
 
