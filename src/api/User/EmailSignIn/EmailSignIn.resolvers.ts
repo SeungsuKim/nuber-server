@@ -2,6 +2,7 @@ import { EmailSiginInResponse, EmailSignInMutationArgs } from "src/types/graphql
 import { Resolvers } from "src/types/resolvers";
 
 import User from "../../../entities/User";
+import createJWT from "../../../utils/createJWT";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -23,7 +24,7 @@ const resolvers: Resolvers = {
           return {
             ok: true,
             error: null,
-            token: "Comming soon"
+            token: createJWT(user.id)
           };
         }
         return {

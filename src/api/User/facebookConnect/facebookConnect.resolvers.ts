@@ -2,6 +2,7 @@ import { FacebookConnectMutationArgs, FacebookConnectResponse } from "src/types/
 
 import User from "../../../entities/User";
 import { Resolvers } from "../../../types/resolvers";
+import createJWT from "../../../utils/createJWT";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -16,7 +17,7 @@ const resolvers: Resolvers = {
           return {
             ok: true,
             error: null,
-            token: "Coming soon, already"
+            token: createJWT(existingUser.id)
           };
         }
       } catch (error) {
@@ -27,14 +28,14 @@ const resolvers: Resolvers = {
         };
       }
       try {
-        await User.create({
+        const user = await User.create({
           ...args,
           profilePhoto: `http://grpah.facebook.com/${facebookId}/picture?type=squre`
         }).save();
         return {
           ok: true,
           error: null,
-          token: "Comming soon, created"
+          token: createJWT(user.id)
         };
       } catch (error) {
         return {

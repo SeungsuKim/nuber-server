@@ -6,6 +6,7 @@ import { Resolvers } from "src/types/resolvers";
 
 import User from "../../../entities/User";
 import Verification from "../../../entities/Verification";
+import createJWT from "../../../utils/createJWT";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -42,7 +43,7 @@ const resolvers: Resolvers = {
           return {
             ok: true,
             error: null,
-            token: "Coming soon"
+            token: createJWT(user.id)
           };
         }
         return {
