@@ -10,7 +10,8 @@ class App {
   public app: GraphQLServer;
   constructor() {
     this.app = new GraphQLServer({
-      schema
+      schema,
+      context: req => ({ req: req.request })
     });
     this.middlewares();
   }
