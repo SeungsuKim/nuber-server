@@ -3,6 +3,7 @@ import { Resolvers } from "src/types/resolvers";
 
 import User from "../../../entities/User";
 import { privateResolver } from "../../../middlewares";
+import cleanNullArgs from "../../../utils/cleanNullArgs";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -13,13 +14,13 @@ const resolvers: Resolvers = {
         { req }
       ): Promise<UpdateMyProfileResponse> => {
         const user: User = req.user;
-        const notNullArgs = {};
-        Object.keys(args).forEach(key => {
-          if (args[key] !== null) {
-            notNullArgs[key] = args[key];
-          }
-        });
+        const notNullArgs: any = cleanNullArgs(args);
         try {
+          if (notNullArgs.password !== null) {
+            user.password = notNullArgs.password;
+            user.save();
+            delete notNullArgs.password;
+          }
           await User.update({ id: user.id }, { ...notNullArgs });
           return {
             ok: true,
