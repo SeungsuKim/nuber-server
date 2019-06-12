@@ -1,3 +1,4 @@
+import Verification from "src/entities/Verification";
 import { EmailSignUpMutationArgs, EmailSignUpResponse } from "src/types/graphql";
 import { Resolvers } from "src/types/resolvers";
 
@@ -22,6 +23,12 @@ const resolvers: Resolvers = {
           };
         }
         const user = await User.create({ ...args }).save();
+        if (user.email) {
+          const emailVerification = await Verification.create({
+            payload: user.email,
+            target: "EMAIL"
+          });
+        }
         return {
           ok: true,
           error: null,
