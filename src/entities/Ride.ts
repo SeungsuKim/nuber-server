@@ -40,6 +40,9 @@ class Ride extends BaseEntity {
   @Column({ type: "double precision", default: 0 })
   dropOffLng: number;
 
+  @Column({ type: "double precision", default: 0 })
+  price: number;
+
   @Column({ type: "text" })
   distance: string;
 
