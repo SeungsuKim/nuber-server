@@ -17,7 +17,8 @@ type User {
   lastLng: Float!
   lastLat: Float!
   lastOrientation: Float
-  chat: Chat
+  chatsAsPassenger: [Chat]
+  chatsAsDriver: [Chat]
   messages: [Message!]!
   ridesAsPassenger: [Ride!]!
   ridesAsDriver: [Ride!]!

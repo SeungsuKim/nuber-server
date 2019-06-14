@@ -1,6 +1,7 @@
 import { UpdateRideStatusMutationArgs, UpdateRideStatusResponse } from "src/types/graphql";
 import { Resolvers } from "src/types/resolvers";
 
+import Chat from "../../../entities/Chat";
 import Ride from "../../../entities/Ride";
 import User from "../../../entities/User";
 import { privateResolver } from "../../../middlewares";
@@ -18,11 +19,18 @@ const resolvers: Resolvers = {
           try {
             let ride: Ride | undefined;
             if (status === "ACCEPTED") {
-              ride = await Ride.findOne({ id: rideId, status: "REQUESTING" });
+              ride = await Ride.findOne(
+                { id: rideId, status: "REQUESTING" },
+                { relations: ["passenger"] }
+              );
               if (ride) {
                 ride.driver = user;
                 user.isTaken = true;
                 user.save();
+                await Chat.create({
+                  driver: user,
+                  passenger: ride.passenger
+                }).save();
               }
             } else {
               ride = await Ride.findOne({ id: rideId, driver: user });
