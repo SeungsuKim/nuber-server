@@ -1,7 +1,7 @@
-import Ride from "src/entities/Ride";
 import { UpdateRideStatusMutationArgs, UpdateRideStatusResponse } from "src/types/graphql";
 import { Resolvers } from "src/types/resolvers";
 
+import Ride from "../../../entities/Ride";
 import User from "../../../entities/User";
 import { privateResolver } from "../../../middlewares";
 
@@ -16,13 +16,24 @@ const resolvers: Resolvers = {
         const user: User = req.user;
         if (user.isDriving) {
           try {
-            const ride = await Ride.findOne({
-              id: rideId,
-              status: "REQUESTING"
-            });
+            let ride: Ride | undefined;
+            if (status === "ACCEPTED") {
+              ride = await Ride.findOne({ id: rideId, status: "REQUESTING" });
+              if (ride) {
+                ride.driver = user;
+                user.isTaken = true;
+                user.save();
+              }
+            } else {
+              ride = await Ride.findOne({ id: rideId, driver: user });
+            }
             if (ride) {
               ride.status = status;
               ride.save();
+              return {
+                ok: true,
+                error: null
+              };
             }
             return {
               ok: false,
@@ -35,6 +46,10 @@ const resolvers: Resolvers = {
             };
           }
         }
+        return {
+          ok: false,
+          error: "You are not driving"
+        };
       }
     )
   }
