@@ -1,4 +1,4 @@
-import { GetNearbyRidesResponse } from "src/types/graphql";
+import { GetNearbyRideResponse } from "src/types/graphql";
 import { Resolvers } from "src/types/resolvers";
 import { Between } from "typeorm";
 
@@ -8,13 +8,13 @@ import { privateResolver } from "../../../middlewares";
 
 const resolvers: Resolvers = {
   Query: {
-    GetNearbyRides: privateResolver(
-      async (_, __, { req }): Promise<GetNearbyRidesResponse> => {
+    GetNearbyRide: privateResolver(
+      async (_, __, { req }): Promise<GetNearbyRideResponse> => {
         const user: User = req.user;
         if (user.isDriving) {
           const { lastLat, lastLng } = user;
           try {
-            const rides = await Ride.find({
+            const ride = await Ride.findOne({
               status: "REQUESTING",
               pickUpLat: Between(lastLat - 0.05, lastLat + 0.05),
               pickUpLng: Between(lastLng - 0.05, lastLng + 0.05)
@@ -22,20 +22,20 @@ const resolvers: Resolvers = {
             return {
               ok: true,
               error: null,
-              rides
+              ride: ride ? ride : null
             };
           } catch (error) {
             return {
               ok: false,
               error: error.message,
-              rides: null
+              ride: null
             };
           }
         }
         return {
           ok: false,
           error: "You are not a driver",
-          rides: null
+          ride: null
         };
       }
     )
