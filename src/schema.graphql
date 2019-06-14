@@ -101,6 +101,10 @@ type CompletePhoneVerificationResponse {
   token: String
 }
 
+type Subscription {
+  DriversSubscription: User
+}
+
 type EmailSiginInResponse {
   ok: Boolean!
   error: String

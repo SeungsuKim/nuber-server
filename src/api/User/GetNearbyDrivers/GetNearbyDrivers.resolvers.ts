@@ -1,12 +1,11 @@
-import { privateResolver } from "src/middlewares";
 import { GetNearbyDriversResponse } from "src/types/graphql";
 import { Resolvers } from "src/types/resolvers";
 import { Between } from "typeorm";
 
 import User from "../../../entities/User";
-import resolvers from "../ReportMovement/ReportMovement.resolvers";
+import { privateResolver } from "../../../middlewares";
 
-const resolvres: Resolvers = {
+const resolvers: Resolvers = {
   Query: {
     GetNearbyDrivers: privateResolver(
       async (_, __, { req }): Promise<GetNearbyDriversResponse> => {
