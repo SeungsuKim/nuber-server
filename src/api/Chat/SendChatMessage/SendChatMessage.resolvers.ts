@@ -12,18 +12,21 @@ const resolvers: Resolvers = {
       async (
         _,
         { text, chatId }: SendChatMessageMutationArgs,
-        { req }
+        { req, pubSub }
       ): Promise<SendChatMessageResponse> => {
         const user: User = req.user;
         try {
           const chat = await Chat.findOne({ id: chatId });
           if (chat) {
-            if (chat.passenger === user.id || chat.driverId === user.id) {
+            if (chat.passengerId === user.id || chat.driverId === user.id) {
               const message = await Message.create({
                 text,
                 chat,
                 user
               }).save();
+              pubSub.publish("newChatMessage", {
+                MessageSubscription: message
+              });
               return {
                 ok: true,
                 error: null,
